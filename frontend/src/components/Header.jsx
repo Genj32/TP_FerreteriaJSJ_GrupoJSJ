@@ -5,8 +5,12 @@ import "./Header.css";
 
 export default function Header({ titulo }) {
     const { usuario, logout } = useAuth();
-    const { totalItems } = useCarrito();
+    const { totalItems, limpiarCarrito } = useCarrito();
 
+        function cerrarSesion() {
+        limpiarCarrito();
+        logout();
+    }
     return (
         <header className="header-main">
             <div className="header-izq">
@@ -20,7 +24,8 @@ export default function Header({ titulo }) {
                     </Link>
                 )}
                 <span className="header-item">{usuario?.nombre}</span>
-                <button className="btn-logout" onClick={logout}>Salir</button>
+                <button className="btn-logout" onClick={cerrarSesion}>Salir</button>
+                
             </div>
         </header>
     );
