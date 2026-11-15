@@ -6,7 +6,13 @@ export default function ProductoCard({ producto }) {
 
   return (
       <div className="producto-card">
-          <div className="imagen-placeholder">🛠️</div>
+          <div className="imagen-placeholder">
+  {producto.imagen ? (
+    <img src={producto.imagen} alt={producto.nombre} className="producto-img" />
+         ) : (
+           "🛠️"
+         )}
+          </div>
 
           <h3 className="producto-nombre">{producto.nombre}</h3>
           <p className="producto-categoria">{producto.categoria}</p>
