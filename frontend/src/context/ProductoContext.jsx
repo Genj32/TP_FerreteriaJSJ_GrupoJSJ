@@ -42,8 +42,37 @@ export function ProductoProvider({children}){
         return true;
     }
 
+  function venderCarrito(items) {
+        const hayStock = items.every((item) => {
+            const producto = productos.find((p) => p.id === item.id);
+            if (!producto) {
+                return false; // Producto no encontrado
+            }
+            if (item.cantidad > producto.stock) {
+                return false; // No hay suficiente stock
+            }
+            return true;
+        });
+
+        if (!hayStock) {
+            return false;
+        }
+
+        setProductos(
+            productos.map((producto) => {
+                const item = items.find((i) => i.id === producto.id);
+                if (item) {
+                    return { ...producto, stock: producto.stock - item.cantidad };
+                }
+                return producto;
+            })
+        );
+
+        return true;
+    }
+    
     return (
-        <ProductoContext.Provider value={{ productos ,crear , borrar , editar, vender, productoEditando , setProductoEditando }}>
+        <ProductoContext.Provider value={{ productos ,crear , borrar , editar, vender, venderCarrito, productoEditando , setProductoEditando }}>
             {children}
         </ProductoContext.Provider>
         )
@@ -52,5 +81,6 @@ export function ProductoProvider({children}){
 export function useProductos(){
     return useContext(ProductoContext)
 }
+  
 
     

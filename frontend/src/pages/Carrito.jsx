@@ -2,10 +2,23 @@ import { Link } from "react-router-dom";
 import Header from "../components/Header";
 import { useCarrito } from "../context/CarritoContext";
 import "./Carrito.css";
+import { useProductos } from "../context/ProductoContext";
+
+
 
 export default function Carrito() {
     const { carrito, agregarAlCarrito, restarDelCarrito, eliminarDelCarrito, limpiarCarrito, totalPrecio } = useCarrito();
+    const { venderCarrito } = useProductos();
 
+function finalizarCompra() {
+  const ok = venderCarrito(carrito);
+  if (ok) {
+limpiarCarrito();
+  alert("¡Compra finalizada con éxito!");
+  } else {
+    alert("No hay suficiente stock para completar la compra.");
+  }
+}
   return (
     <div className="contenedor-pagina">
       <Header titulo="Mi Carrito" />
@@ -58,7 +71,7 @@ export default function Carrito() {
                    <button className="btn-volver-outline">Seguir comprando</button>
                 </Link>
                 <button className="btn-vaciar" onClick={limpiarCarrito}>Vaciar carrito</button>
-                <button className="btn-comprar" onClick={() => alert("¡Compra finalizada con éxito!")}>
+                <button className="btn-comprar" onClick={finalizarCompra}>
                   Finalizar compra
                 </button>
               </div>
