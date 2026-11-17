@@ -10,6 +10,10 @@ export default function Vendedor() {
   const { pedidos, cambiarEstado } = usePedidos();
   const [mensajePedido, setMensajePedido] = useState("");
   const pedidosPendientes = pedidos.filter((p) => p.estado === "pendiente");
+  const pedidosHistorial = pedidos.filter((p) => p.estado !== "pendiente");
+  const totalVendido = pedidosHistorial
+  .filter((p) => p.estado === "confirmado")
+  .reduce((total, p) => total + p.total, 0);
   const [cantidad, setCantidad] = useState(1);
   const [productoId, setProductoId] = useState("");
   const [mensaje, setMensaje] = useState("");
@@ -44,7 +48,7 @@ if (ok) {
 
 
    return (
-    
+
     <div className="contenedor-pagina">
       <Header titulo="Panel de Vendedor" />
 
@@ -128,6 +132,38 @@ if (ok) {
                 <td>{producto.stock}</td>
               </tr>
             ))}
+
+            <h3>Historial de pedidos</h3>
+<p>Total vendido (confirmados): $ {totalVendido.toLocaleString("es-AR")}</p>
+
+{pedidosHistorial.length === 0 ? (
+  <p>Todavía no hay pedidos en el historial</p>
+) : (
+  <table className="tabla-admin">
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Cliente</th>
+        <th>Productos</th>
+        <th>Total</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      {pedidosHistorial.map((pedido) => (
+        <tr key={pedido.id}>
+          <td>{pedido.fecha}</td>
+          <td>{pedido.cliente}</td>
+          <td>
+            {pedido.items.map((i) => `${i.nombre} x${i.cantidad}`).join(", ")}
+          </td>
+          <td>$ {pedido.total.toLocaleString("es-AR")}</td>
+          <td>{pedido.estado}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+)}
           </tbody>
         </table>
       </main>
