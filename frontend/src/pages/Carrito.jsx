@@ -2,22 +2,21 @@ import { Link } from "react-router-dom";
 import Header from "../components/Header";
 import { useCarrito } from "../context/CarritoContext";
 import "./Carrito.css";
-import { useProductos } from "../context/ProductoContext";
+import {useAuth} from "../context/AuthContext";
+import { usePedidos } from "../context/PedidoContext";
+
 
 
 
 export default function Carrito() {
     const { carrito, agregarAlCarrito, restarDelCarrito, eliminarDelCarrito, limpiarCarrito, totalPrecio } = useCarrito();
-    const { venderCarrito } = useProductos();
+    const { usuario } = useAuth();
+    const { crearPedido } = usePedidos();
 
 function finalizarCompra() {
-  const ok = venderCarrito(carrito);
-  if (ok) {
-limpiarCarrito();
-  alert("¡Compra finalizada con éxito!");
-  } else {
-    alert("No hay suficiente stock para completar la compra.");
-  }
+ crearPedido (carrito , usuario.nombre);
+ limpiarCarrito();
+  alert("Pedido enviado. El vendedor lo va a confirmar.");
 }
   return (
     <div className="contenedor-pagina">

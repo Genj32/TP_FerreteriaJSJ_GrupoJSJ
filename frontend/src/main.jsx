@@ -7,15 +7,18 @@ import { AuthProvider } from './context/AuthContext'
 // 1. Importás el nuevo contexto de usuarios:
 import { UsuarioProvider } from './context/UsuarioContext' 
 import { CarritoProvider } from './context/CarritoContext'
+import { PedidoProvider } from './context/PedidoContext'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
         <UsuarioProvider>
-          <CarritoProvider>
-          <App />
-          </CarritoProvider>
+          <PedidoProvider>
+            <CarritoProvider>
+              <App />
+            </CarritoProvider>
+          </PedidoProvider>
         </UsuarioProvider>
       </AuthProvider>
     </BrowserRouter>
