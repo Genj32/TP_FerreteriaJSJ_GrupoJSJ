@@ -45,6 +45,22 @@ export function CarritoProvider({ children }) {
     const totalItems = carrito.reduce((total, item) => total + item.cantidad, 0);
     const totalPrecio = carrito.reduce((total, item) => total + item.precio * item.cantidad, 0);
 
+
+    function agregarAlCarrito(producto, cantidad = 1) {
+    setCarrito((carritoActual) => {
+        const productoExistente = carritoActual.find((item) => item.id === producto.id);
+
+        if (productoExistente) {
+            return carritoActual.map((item) =>
+                item.id === producto.id
+                    ? { ...item, cantidad: item.cantidad + cantidad }
+                    : item
+            );
+        } else {
+            return [...carritoActual, { ...producto, cantidad: cantidad }];
+        }
+    });
+}
     return (
         <CarritoContext.Provider
             value={{

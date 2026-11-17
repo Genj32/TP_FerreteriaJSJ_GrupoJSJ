@@ -1,8 +1,11 @@
 import { useCarrito } from "../context/CarritoContext";
 import "./ProductoCard.css";
+import { useState } from "react";
+
 
 export default function ProductoCard({ producto }) {
   const { agregarAlCarrito } = useCarrito();
+  const [cantidad, setCantidad] = useState(1);
 
   return (
       <div className="producto-card">
@@ -20,12 +23,26 @@ export default function ProductoCard({ producto }) {
           <p className="producto-precio">$ {producto.precio.toLocaleString("es-AR")}</p>
 
           {/* 3. Ejecutamos la función pasando el producto entero */}
-          <button 
-            className="btn-agregar" 
-            onClick={() => agregarAlCarrito(producto)}
-          >
-            Agregar al carrito
-          </button>
-      </div>
+    <div className="selector-cantidad">
+       <button onClick={() => setCantidad(cantidad - 1)} disabled={cantidad <= 1}>
+    -
+        </button>
+        <span>{cantidad}</span>
+        <button onClick={() => setCantidad(cantidad + 1)} disabled={cantidad >= producto.stock}>
+    +
+        </button>
+     </div>
+
+    <button
+         className="btn-agregar"
+        onClick={() => {
+              agregarAlCarrito(producto, cantidad);
+              setCantidad(1);
+  }}
+>
+      Agregar al carrito
+    </button>
+          
+    </div>
     );
   }

@@ -69,3 +69,22 @@
   height: 100%;
   object-fit: contain;
 }
+
+.selector-cantidad {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 8px 0;
+}
+
+.selector-cantidad button {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.selector-cantidad button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
