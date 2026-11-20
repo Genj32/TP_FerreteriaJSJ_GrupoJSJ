@@ -110,3 +110,66 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+.kpis-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.kpi-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-left: 4px solid #1e293b;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.kpi-card.kpi-alerta {
+  border-left-color: #d97706;
+}
+
+.kpi-card.kpi-destacado {
+  border-left-color: #ea580c;
+}
+
+.kpi-label {
+  font-size: 0.8rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.kpi-value {
+  font-size: 1.4rem;
+  color: #0f172a;
+}
+
+/* Semáforo de Stock */
+.badge-stock {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.badge-stock-ok {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.badge-stock-bajo {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.badge-stock-cero {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
