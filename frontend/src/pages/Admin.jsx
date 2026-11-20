@@ -4,44 +4,56 @@ import { useProductos } from "../context/ProductoContext";
 import { Formulario } from "../components/Formulario";
 import { useUsuarios } from "../context/UsuarioContext";
 import { FormularioUsuario } from "../components/FormularioUsuario";
+import { usePedidos } from "../context/PedidoContext";
+import { StockBadge } from "../components/StockBadge";
+import { InventarioKPIs } from "../components/InventarioKPIs";
 import "../components/Formulario.css";
 import "./Admin.css";
 
-export default function Admin() { 
+export default function Admin() {
   const { productos, borrar, setProductoEditando } = useProductos();
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const { usuarios, borrarUsuario, setUsuarioEditando } = useUsuarios();
   const [mostrarFormUsuarios, setMostrarFormUsuarios] = useState(false);
-  
+  const { pedidos } = usePedidos();
+
   const [pestaniaActiva, setPestaniaActiva] = useState("productos");
-const cambiarPestania = (NuevaPestania) => {
-      setPestaniaActiva(NuevaPestania);
-      setMostrarFormulario(false); 
-      setMostrarFormUsuarios(false);
-      setProductoEditando(null); 
-      setUsuarioEditando(null);    
+  const [soloCritico, setSoloCritico] = useState(false);
+
+  const cambiarPestania = (nuevaPestania) => {
+    setPestaniaActiva(nuevaPestania);
+    setMostrarFormulario(false);
+    setMostrarFormUsuarios(false);
+    setProductoEditando(null);
+    setUsuarioEditando(null);
   };
+
+  const productosFiltrados = soloCritico
+    ? productos.filter((p) => Number(p.stock) <= 10)
+    : productos;
 
   return (
     <div className="contenedor-pagina">
       <Header titulo="Panel de administración" />
-    
+
+      <InventarioKPIs productos={productos} pedidos={pedidos} />
+
       <nav className="admin-subnav">
         <ul>
-          <li 
-            className={pestaniaActiva === "productos" ? "activo" : ""} 
+          <li
+            className={pestaniaActiva === "productos" ? "activo" : ""}
             onClick={() => cambiarPestania("productos")}
           >
             Productos
           </li>
-          <li 
-            className={pestaniaActiva === "usuarios" ? "activo" : ""} 
+          <li
+            className={pestaniaActiva === "usuarios" ? "activo" : ""}
             onClick={() => cambiarPestania("usuarios")}
           >
             Usuarios
           </li>
-          <li 
-            className={pestaniaActiva === "stock" ? "activo" : ""} 
+          <li
+            className={pestaniaActiva === "stock" ? "activo" : ""}
             onClick={() => cambiarPestania("stock")}
           >
             Stock Crítico
@@ -53,16 +65,30 @@ const cambiarPestania = (NuevaPestania) => {
         {pestaniaActiva === "productos" && (
           <>
             <div className="admin-acciones">
-              <p>{productos.length} productos</p>
-              <button onClick={() => {
-                setProductoEditando(null);
-                setMostrarFormulario(true);
-              }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+                <p>{productosFiltrados.length} productos</p>
+                <label className="filtro-critico-label">
+                  <input
+                    type="checkbox"
+                    checked={soloCritico}
+                    onChange={(e) => setSoloCritico(e.target.checked)}
+                  />
+                  Solo stock crítico
+                </label>
+              </div>
+              <button
+                onClick={() => {
+                  setProductoEditando(null);
+                  setMostrarFormulario(true);
+                }}
+              >
                 Nuevo Producto
               </button>
             </div>
 
-            {mostrarFormulario && <Formulario onClose={() => setMostrarFormulario(false)} />}
+            {mostrarFormulario && (
+              <Formulario onClose={() => setMostrarFormulario(false)} />
+            )}
 
             <table className="tabla-admin">
               <thead>
@@ -75,21 +101,30 @@ const cambiarPestania = (NuevaPestania) => {
                 </tr>
               </thead>
               <tbody>
-                {productos.map((producto) => (
+                {productosFiltrados.map((producto) => (
                   <tr key={producto.id}>
                     <td>{producto.nombre}</td>
                     <td>{producto.categoria}</td>
                     <td>$ {Number(producto.precio || 0).toLocaleString("es-AR")}</td>
                     <td>
-                      {producto.stock} 
-                      {producto.stock < 5 && <span className="stock-critico">bajo</span>}
+                      <StockBadge stock={producto.stock} />
                     </td>
                     <td className="acciones-celda">
-                      <button className="btn-icono" onClick={() => {
-                        setProductoEditando(producto);
-                        setMostrarFormulario(true);
-                      }}>✏️</button>
-                      <button className="btn-icono" onClick={() => borrar(producto.id)}>🗑️</button>
+                      <button
+                        className="btn-icono"
+                        onClick={() => {
+                          setProductoEditando(producto);
+                          setMostrarFormulario(true);
+                        }}
+                      >
+                        ✏️
+                      </button>
+                      <button
+                        className="btn-icono"
+                        onClick={() => borrar(producto.id)}
+                      >
+                        🗑️
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -102,15 +137,19 @@ const cambiarPestania = (NuevaPestania) => {
           <>
             <div className="admin-acciones">
               <p>{usuarios?.length || 0} usuarios</p>
-              <button onClick={() => {
-                setUsuarioEditando(null);
-                setMostrarFormUsuarios(true);
-              }}>
+              <button
+                onClick={() => {
+                  setUsuarioEditando(null);
+                  setMostrarFormUsuarios(true);
+                }}
+              >
                 Nuevo Usuario
               </button>
             </div>
 
-            {mostrarFormUsuarios && <FormularioUsuario onClose={() => setMostrarFormUsuarios(false)} />}
+            {mostrarFormUsuarios && (
+              <FormularioUsuario onClose={() => setMostrarFormUsuarios(false)} />
+            )}
 
             <table className="tabla-admin">
               <thead>
@@ -128,11 +167,21 @@ const cambiarPestania = (NuevaPestania) => {
                     <td>{usuario.email}</td>
                     <td>{usuario.rol}</td>
                     <td className="acciones-celda">
-                      <button className="btn-icono" onClick={() => {
-                        setUsuarioEditando(usuario);
-                        setMostrarFormUsuarios(true);
-                      }}>✏️</button>
-                      <button className="btn-icono" onClick={() => borrarUsuario(usuario.id)}>🗑️</button>
+                      <button
+                        className="btn-icono"
+                        onClick={() => {
+                          setUsuarioEditando(usuario);
+                          setMostrarFormUsuarios(true);
+                        }}
+                      >
+                        ✏️
+                      </button>
+                      <button
+                        className="btn-icono"
+                        onClick={() => borrarUsuario(usuario.id)}
+                      >
+                        🗑️
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -144,7 +193,10 @@ const cambiarPestania = (NuevaPestania) => {
         {pestaniaActiva === "stock" && (
           <>
             <div className="admin-acciones">
-              <p>{productos.filter(p => p.stock < 5).length} productos con stock crítico</p>
+              <p>
+                {productos.filter((p) => Number(p.stock) <= 10).length} productos
+                con stock crítico
+              </p>
             </div>
             <table className="tabla-admin">
               <thead>
@@ -156,16 +208,20 @@ const cambiarPestania = (NuevaPestania) => {
                 </tr>
               </thead>
               <tbody>
-                {productos.filter(p => p.stock < 5).map(producto => (
-                  <tr key={producto.id}>
-                    <td>{producto.nombre}</td>
-                    <td>{producto.categoria}</td>
-                    <td>$ {Number(producto.precio || 0).toLocaleString("es-AR")}</td>
-                    <td>
-                      {producto.stock} <span className="stock-critico">bajo</span>
-                    </td>
-                  </tr>
-                ))}
+                {productos
+                  .filter((p) => Number(p.stock) <= 10)
+                  .map((producto) => (
+                    <tr key={producto.id}>
+                      <td>{producto.nombre}</td>
+                      <td>{producto.categoria}</td>
+                      <td>
+                        $ {Number(producto.precio || 0).toLocaleString("es-AR")}
+                      </td>
+                      <td>
+                        <StockBadge stock={producto.stock} />
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </>
