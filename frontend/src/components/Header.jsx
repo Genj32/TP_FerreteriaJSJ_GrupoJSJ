@@ -18,7 +18,7 @@ export default function Header({ titulo }) {
                 <h2 className="header-titulo">{titulo}</h2>
             </div>
             <div className="header-der">
-                {usuario?.rol !== "administrador" && (
+                {usuario?.rol === "cliente" && (
                     <Link to="/carrito" className="header-item" style={{ textDecoration: 'none' }}>
                         🛒 Carrito ({totalItems})
                     </Link>
