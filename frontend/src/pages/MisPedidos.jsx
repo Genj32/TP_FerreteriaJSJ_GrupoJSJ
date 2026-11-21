@@ -15,39 +15,43 @@ export default function MisPedidos() {
       <Header titulo="Mis pedidos" />
 
       <main>
-        <section className="vendedor-seccion">
+             <section className="vendedor-seccion">
           <h3>Mis pedidos</h3>
-          <p className="vendedor-subtitulo">{misPedidos.length} pedidos realizados</p>
+          <p className="vendedor-subtitulo">
+            {misPedidos.length}{" "}
+            {misPedidos.length === 1 ? "pedido realizado" : "pedidos realizados"}
+          </p>
+
           {misPedidos.length === 0 ? (
-  <p className="vendedor-subtitulo">Todavía no hiciste ningún pedido</p>
-) : (
-  <table className="tabla-admin">
-    <thead>
-      <tr>
-        <th>Fecha</th>
-        <th>Productos</th>
-        <th>Total</th>
-        <th>Estado</th>
-      </tr>
-    </thead>
-    <tbody>
-      {misPedidos.map((pedido) => (
-        <tr key={pedido.id}>
-          <td>{pedido.fecha}</td>
-          <td>
-            {pedido.items.map((i) => `${i.nombre} x${i.cantidad}`).join(", ")}
-          </td>
-          <td>$ {pedido.total.toLocaleString("es-AR")}</td>
-          <td>
-            <span className={`estado-badge estado-${pedido.estado}`}>
-              {pedido.estado}
-            </span>
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-)}
+            <p className="vendedor-subtitulo">Todavía no hiciste ningún pedido</p>
+          ) : (
+            <table className="tabla-admin">
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Productos</th>
+                  <th>Total</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                {misPedidos.map((pedido) => (
+                  <tr key={pedido.id}>
+                    <td>{pedido.fecha}</td>
+                    <td>
+                      {pedido.items.map((i) => `${i.nombre} x${i.cantidad}`).join(", ")}
+                    </td>
+                    <td>$ {pedido.total.toLocaleString("es-AR")}</td>
+                    <td>
+                      <span className={`estado-badge estado-${pedido.estado}`}>
+                        {pedido.estado}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </section>
       </main>
     </div>

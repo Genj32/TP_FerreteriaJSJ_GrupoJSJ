@@ -29,6 +29,10 @@ export default function Vendedor() {
 
   function manejarVenta(e) {
     e.preventDefault();
+    if (productoId === "") {
+  setMensaje("Elegí un producto antes de registrar la venta");
+  return;
+}
     const ok = vender(parseInt(productoId, 10), parseInt(cantidad, 10));
 
     if (ok) {
@@ -63,11 +67,12 @@ export default function Vendedor() {
       <main>
         <InventarioKPIs productos={productos} pedidos={pedidos} />
 
-        {/* SECCIÓN 1: PEDIDOS PENDIENTES */}
+                {/* SECCIÓN 1: PEDIDOS PENDIENTES */}
         <section className="vendedor-seccion">
           <h3>Pedidos pendientes</h3>
           <p className="vendedor-subtitulo">
-            {pedidosPendientes.length} pedidos esperando confirmación
+            {pedidosPendientes.length}{" "}
+            {pedidosPendientes.length === 1 ? "pedido esperando" : "pedidos esperando"} confirmación
           </p>
 
           {pedidosPendientes.length > 0 && (
