@@ -7,6 +7,7 @@ import RutaProtegida from "./components/RutaProtegida";
 import { useAuth } from "./context/AuthContext";
 import { ProductoProvider } from "./context/ProductoContext";
 import Carrito from "./pages/Carrito";
+import MisPedidos from "./pages/MisPedidos";
 
 function App() {
   const { usuario } = useAuth();
@@ -65,6 +66,15 @@ function App() {
             </RutaProtegida>
           }
         />
+
+        <Route
+  path="/mis-pedidos"
+  element={
+    <RutaProtegida rolRequerido="cliente">
+      <MisPedidos />
+    </RutaProtegida>
+  }
+/>
         
       </Routes>
     </ProductoProvider>

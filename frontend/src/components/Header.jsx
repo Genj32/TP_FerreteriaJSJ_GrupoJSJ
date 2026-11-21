@@ -18,11 +18,16 @@ export default function Header({ titulo }) {
                 <h2 className="header-titulo">{titulo}</h2>
             </div>
             <div className="header-der">
-                {usuario?.rol === "cliente" && (
-                    <Link to="/carrito" className="header-item" style={{ textDecoration: 'none' }}>
-                        🛒 Carrito ({totalItems})
-                    </Link>
-                )}
+               {usuario?.rol === "cliente" && (
+          <>
+             <Link to="/mis-pedidos" className="header-item" style={{ textDecoration: 'none' }}>
+            📦 Mis pedidos
+                </Link>
+             <Link to="/carrito" className="header-item" style={{ textDecoration: 'none' }}>
+            🛒 Carrito ({totalItems})
+               </Link>
+          </>
+)}
                 <span className="header-item">{usuario?.nombre}</span>
                 <button className="btn-logout" onClick={cerrarSesion}>Salir</button>
                 

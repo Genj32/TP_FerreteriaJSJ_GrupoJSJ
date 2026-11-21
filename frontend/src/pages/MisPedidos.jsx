@@ -1,0 +1,55 @@
+import Header from "../components/Header";
+import { useAuth } from "../context/AuthContext";
+import { usePedidos } from "../context/PedidoContext";
+import "./Admin.css";
+import "./Vendedor.css";
+
+export default function MisPedidos() {
+  const { usuario } = useAuth();
+  const { pedidos } = usePedidos();
+
+  const misPedidos = pedidos.filter((p) => p.cliente === usuario?.nombre);
+
+  return (
+    <div className="contenedor-pagina">
+      <Header titulo="Mis pedidos" />
+
+      <main>
+        <section className="vendedor-seccion">
+          <h3>Mis pedidos</h3>
+          <p className="vendedor-subtitulo">{misPedidos.length} pedidos realizados</p>
+          {misPedidos.length === 0 ? (
+  <p className="vendedor-subtitulo">Todavía no hiciste ningún pedido</p>
+) : (
+  <table className="tabla-admin">
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Productos</th>
+        <th>Total</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      {misPedidos.map((pedido) => (
+        <tr key={pedido.id}>
+          <td>{pedido.fecha}</td>
+          <td>
+            {pedido.items.map((i) => `${i.nombre} x${i.cantidad}`).join(", ")}
+          </td>
+          <td>$ {pedido.total.toLocaleString("es-AR")}</td>
+          <td>
+            <span className={`estado-badge estado-${pedido.estado}`}>
+              {pedido.estado}
+            </span>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+)}
+        </section>
+      </main>
+    </div>
+  );
+}
