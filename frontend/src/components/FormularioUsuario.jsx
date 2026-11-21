@@ -5,15 +5,16 @@ import "./Formulario.css";
 export function FormularioUsuario({ onClose }) {
   const { crearUsuario, editarUsuario, usuarioEditando } = useUsuarios();
   
-  const [usuario, setUsuario] = useState({
-    nombre: "",
-    email: "",
-    rol: ""
-  });
+const [usuario, setUsuario] = useState({
+  nombre: "",
+  email: "",
+  password: "",
+  rol: ""
+});
 
   useEffect(() => {
     if (usuarioEditando) setUsuario(usuarioEditando);
-    else setUsuario({ nombre: "", email: "", rol: "" });
+    else setUsuario({ nombre: "", email: "",password: "" ,rol: "" });
   }, [usuarioEditando]);
 
   const handleChange = (e) => {
@@ -38,6 +39,16 @@ export function FormularioUsuario({ onClose }) {
       <div>
         <label>Email:</label>
         <input type="email" name="email" value={usuario.email} onChange={handleChange} required />
+      </div>
+      <div>
+        <label>Contraseña:</label>
+        <input
+          type="password"
+          name="password"
+          value={usuario.password || ""}
+          onChange={handleChange}
+          required
+        />
       </div>
       <div>
         <label>Rol:</label>

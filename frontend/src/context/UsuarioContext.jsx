@@ -1,11 +1,10 @@
 import { createContext, useContext, useState } from "react";
-import { usuarios as listaUsuarios } from "../data/usuarios"; 
+import { usuarios as listaUsuarios } from "../data/usuarios";
 
 const UsuarioContext = createContext();
 
 export function UsuarioProvider({ children }) {
-
-  const [usuarios, setUsuarios] = useState(listaUsuarios); 
+  const [usuarios, setUsuarios] = useState(listaUsuarios);
   const [usuarioEditando, setUsuarioEditando] = useState(null);
 
   function crearUsuario(nuevoUsuario) {

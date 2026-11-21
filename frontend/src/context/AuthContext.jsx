@@ -1,10 +1,11 @@
 import { createContext, useContext, useState } from "react";
-import { usuarios } from "../data/usuarios";
+import { useUsuarios } from "./UsuarioContext";
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [usuario, setUsuario] = useState(null);
+  const { usuarios } = useUsuarios();
 
   function login(email, password) {
     const user = usuarios.find((u) => u.email === email && u.password === password);
