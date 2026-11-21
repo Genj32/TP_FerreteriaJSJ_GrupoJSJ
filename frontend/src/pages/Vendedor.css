@@ -1,0 +1,154 @@
+.vendedor-seccion {
+  margin-bottom: 2.5rem;
+  text-align: left;
+}
+
+.vendedor-seccion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.vendedor-seccion h3 {
+  color: #f3f4f6;
+  margin: 0 0 0.25rem;
+  font-size: 1.2rem;
+}
+
+.vendedor-subtitulo {
+  color: #a1a1aa;
+  font-size: 0.9rem;
+  margin: 0 0 1rem;
+}
+
+/* Formulario de registrar venta */
+.vendedor-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 1rem;
+  background: #18181b;
+  border: 1px solid #27272a;
+  padding: 1.25rem;
+  border-radius: 10px;
+}
+
+.vendedor-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1;
+  min-width: 200px;
+}
+
+.vendedor-campo label {
+  font-size: 0.85rem;
+  color: #d4d4d8;
+}
+
+.vendedor-campo select,
+.vendedor-campo input {
+  padding: 0.65rem 0.8rem;
+  background: #121212;
+  border: 1px solid #27272a;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 0.95rem;
+}
+
+.vendedor-campo select:focus,
+.vendedor-campo input:focus {
+  outline: none;
+  border-color: #7c3aed;
+}
+
+.btn-vender {
+  background-color: #7c3aed;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.4rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-vender:hover {
+  background-color: #6d28d9;
+}
+
+/* Botones Confirmar / Rechazar pedidos */
+.btn-confirmar {
+  background-color: #16a34a;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.45rem 0.9rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-confirmar:hover {
+  background-color: #15803d;
+}
+
+.btn-rechazar {
+  background-color: #dc2626;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.45rem 0.9rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-rechazar:hover {
+  background-color: #b91c1c;
+}
+
+/* Estados de pedido y mensajes */
+.estado-badge {
+  display: inline-block;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.estado-confirmado {
+  background-color: rgba(22, 163, 74, 0.2);
+  color: #4ade80;
+}
+
+.estado-rechazado {
+  background-color: rgba(220, 38, 38, 0.2);
+  color: #f87171;
+}
+
+.vendedor-feedback {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  color: #a78bfa;
+  font-weight: 500;
+}
+
+.filtro-critico-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #d4d4d8;
+  font-size: 0.9rem;
+  cursor: pointer;
+  background: #18181b;
+  border: 1px solid #27272a;
+  padding: 0.45rem 0.85rem;
+  border-radius: 8px;
+}
