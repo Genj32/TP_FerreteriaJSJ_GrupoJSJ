@@ -16,7 +16,7 @@ export default function MisPedidos() {
 
       <main>
              <section className="vendedor-seccion">
-          <h3>Mis pedidos</h3>
+          <h3>Estado de tus pedidos</h3>
           <p className="vendedor-subtitulo">
             {misPedidos.length}{" "}
             {misPedidos.length === 1 ? "pedido realizado" : "pedidos realizados"}
