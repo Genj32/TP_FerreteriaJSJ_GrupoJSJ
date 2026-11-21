@@ -152,3 +152,8 @@
   padding: 0.45rem 0.85rem;
   border-radius: 8px;
 }
+
+.estado-pendiente {
+  background-color: rgba(245, 158, 11, 0.2);
+  color: #fbbf24;
+}
