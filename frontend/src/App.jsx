@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
+import Inicio from "./pages/Inicio";
 import Catalogo from "./pages/Catalogo";
 import Admin from "./pages/Admin";
 import Vendedor from "./pages/Vendedor";
@@ -7,7 +8,6 @@ import RutaProtegida from "./components/RutaProtegida";
 import { useAuth } from "./context/AuthContext";
 import { ProductoProvider } from "./context/ProductoContext";
 import Carrito from "./pages/Carrito";
-import MisPedidos from "./pages/MisPedidos";
 
 function App() {
   const { usuario } = useAuth();
@@ -17,17 +17,18 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
 
-        {/* Redirige dependiendo del rol que tenga */}
+        {/* Si hay sesión iniciada va a Inicio; si no, al Login */}
         <Route
           path="/"
+          element={usuario ? <Inicio /> : <Navigate to="/login" />}
+        />
+
+        <Route
+          path="/inicio"
           element={
-            usuario ? (
-              usuario.rol === "administrador" ? <Navigate to="/admin" /> :
-              usuario.rol === "vendedor" ? <Navigate to="/vendedor" /> :
-              <Navigate to="/catalogo" />
-            ) : (
-              <Navigate to="/login" />
-            )
+            <RutaProtegida>
+              <Inicio />
+            </RutaProtegida>
           }
         />
 
@@ -66,16 +67,6 @@ function App() {
             </RutaProtegida>
           }
         />
-
-        <Route
-  path="/mis-pedidos"
-  element={
-    <RutaProtegida rolRequerido="cliente">
-      <MisPedidos />
-    </RutaProtegida>
-  }
-/>
-        
       </Routes>
     </ProductoProvider>
   );
