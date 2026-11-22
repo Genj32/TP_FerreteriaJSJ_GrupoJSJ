@@ -63,7 +63,7 @@ export function CarritoProvider({ children }) {
     0
   );
 
-  const cantidadTotal = carrito.reduce(
+  const totalItems = carrito.reduce(
     (acc, item) => acc + Number(item.cantidad),
     0
   );
@@ -77,8 +77,10 @@ export function CarritoProvider({ children }) {
         disminuirCantidad,
         eliminarDelCarrito,
         vaciarCarrito,
+        limpiarCarrito: vaciarCarrito,
         totalCarrito,
-        cantidadTotal,
+        totalItems,
+        cantidadTotal: totalItems,
       }}
     >
       {children}
