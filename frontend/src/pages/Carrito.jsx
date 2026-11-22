@@ -38,7 +38,10 @@ export default function Carrito() {
         {carrito.length === 0 ? (
           <div className="carrito-vacio">
             <p>Tu carrito está vacío.</p>
-            <button onClick={() => navigate("/catalogo")}>
+            <button
+              className="btn-volver"
+              onClick={() => navigate("/catalogo")}
+            >
               Volver al catálogo
             </button>
           </div>
@@ -50,48 +53,61 @@ export default function Carrito() {
 
                 return (
                   <div key={item.id} className="carrito-item">
-                    <img
-                      src={item.imagen}
-                      alt={item.nombre}
-                      className="carrito-item-img"
-                    />
-                    <div className="carrito-item-info">
-                      <h3>{item.nombre}</h3>
-                      <p>$ {Number(item.precio).toLocaleString("es-AR")} c/u</p>
-                      <small>Stock disponible: {item.stock}</small>
+                    <div className="carrito-item-producto">
+                      <img
+                        src={item.imagen}
+                        alt={item.nombre}
+                        className="carrito-item-img"
+                      />
+                      <div className="carrito-item-info">
+                        <h3>{item.nombre}</h3>
+                        <p>
+                          $ {Number(item.precio).toLocaleString("es-AR")} c/u
+                        </p>
+                        <small>Stock disponible: {item.stock}</small>
+                      </div>
                     </div>
 
-                    <div className="carrito-controles">
-                      <button onClick={() => disminuirCantidad(item.id)}>
-                        -
-                      </button>
-                      <span>{item.cantidad}</span>
+                    <div className="carrito-item-acciones">
+                      <div className="carrito-controles">
+                        <button
+                          className="btn-cant"
+                          onClick={() => disminuirCantidad(item.id)}
+                        >
+                          -
+                        </button>
+                        <span className="item-cantidad-num">
+                          {item.cantidad}
+                        </span>
+                        <button
+                          className="btn-cant"
+                          onClick={() => aumentarCantidad(item.id)}
+                          disabled={alcanzoTope}
+                          title={
+                            alcanzoTope
+                              ? "Stock máximo alcanzado"
+                              : "Sumar unidad"
+                          }
+                        >
+                          +
+                        </button>
+                      </div>
+
+                      <p className="carrito-subtotal">
+                        ${" "}
+                        {(
+                          Number(item.precio) * Number(item.cantidad)
+                        ).toLocaleString("es-AR")}
+                      </p>
+
                       <button
-                        onClick={() => aumentarCantidad(item.id)}
-                        disabled={alcanzoTope}
-                        title={
-                          alcanzoTope
-                            ? "Stock máximo alcanzado"
-                            : "Sumar unidad"
-                        }
+                        className="btn-eliminar"
+                        onClick={() => eliminarDelCarrito(item.id)}
+                        title="Quitar producto"
                       >
-                        +
+                        🗑️
                       </button>
                     </div>
-
-                    <p className="carrito-subtotal">
-                      ${" "}
-                      {(
-                        Number(item.precio) * Number(item.cantidad)
-                      ).toLocaleString("es-AR")}
-                    </p>
-
-                    <button
-                      className="btn-eliminar"
-                      onClick={() => eliminarDelCarrito(item.id)}
-                    >
-                      🗑️
-                    </button>
                   </div>
                 );
               })}
@@ -100,6 +116,12 @@ export default function Carrito() {
             <div className="carrito-resumen">
               <h3>Total: $ {totalCarrito.toLocaleString("es-AR")}</h3>
               <div className="carrito-resumen-acciones">
+                <button
+                  className="btn-volver-outline"
+                  onClick={() => navigate("/catalogo")}
+                >
+                  Seguir comprando
+                </button>
                 <button className="btn-vaciar" onClick={vaciarCarrito}>
                   Vaciar carrito
                 </button>
