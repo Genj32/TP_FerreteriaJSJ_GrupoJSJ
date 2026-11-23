@@ -22,8 +22,8 @@ export default function Catalogo() {
   });
 
   return (
-    <div className= "contenedor-pagina">
-      <Header titulo="Ferreteria"/>
+    <div className="contenedor-pagina">
+      <Header titulo="Ferretería" />
 
       <main>
         <input 
@@ -52,8 +52,8 @@ export default function Catalogo() {
               <ProductoCard key={producto.id} producto={producto} />
             ))
           ) : (
-            <p className="mensaje-vacio" style= {{ color: "var(--text-muted)", fontSize: "20px"}}>
-              No se encontraron porductos que coincidan con la búsqueda o categoría seleccionada.
+            <p className="mensaje-vacio" style={{ color: "var(--text-muted)", fontSize: "20px" }}>
+              No se encontraron productos que coincidan con la búsqueda o categoría seleccionada.
             </p>
           )}
         </div>
