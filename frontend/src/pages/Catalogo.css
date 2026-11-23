@@ -34,7 +34,7 @@
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2 ease;
+  transition: all 0.2s ease;
 }
 
 .filtros button:hover {
@@ -63,4 +63,31 @@
   border: 1px dashed var(--border);
   border-radius: 8px;
   font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .contenedor-pagina {
+    padding: 14px;
+  }
+
+  .filtros {
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .filtros button {
+    padding: 6px 14px;
+    font-size: 13px;
+  }
+
+  .grilla-productos {
+    grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+    gap: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .grilla-productos {
+    grid-template-columns: 1fr;
+  }
 }
