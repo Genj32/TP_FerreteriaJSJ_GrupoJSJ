@@ -22,6 +22,21 @@ export default function Admin() {
   const [pestaniaActiva, setPestaniaActiva] = useState("productos");
   const [soloCritico, setSoloCritico] = useState(false);
 
+
+  const handleBorrarProducto =  (producto) => {
+    if (window.confirm(`¿Estás seguro de que deseas borrar el producto "${producto.nombre}"?`)) {
+      borrar(producto.id);
+    }
+  };
+
+
+  const handleBorrarUsuario = (usuario) => {
+    if (window.confirm(`¿Estás seguro de que deseas borrar el usuario "${usuario.nombre}"?`)) {
+      borrarUsuario(usuario.id);
+    }
+  };
+
+
   const cambiarPestania = (nuevaPestania) => {
     setPestaniaActiva(nuevaPestania);
     setMostrarFormulario(false);
@@ -123,7 +138,7 @@ export default function Admin() {
                       </button>
                       <button
                         className="btn-icono"
-                        onClick={() => borrar(producto.id)}
+                        onClick={() => handleBorrarProducto(producto)}
                       >
                         🗑️
                       </button>
@@ -183,7 +198,7 @@ export default function Admin() {
                       ) : (
                         <button
                           className="btn-icono"
-                          onClick={() => borrarUsuario(usuario.id)}
+                          onClick={() => handleBorrarUsuario(usuario)}
                         >
                           🗑️
                         </button>
