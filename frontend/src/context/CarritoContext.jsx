@@ -1,83 +1,93 @@
-import { createContext, useContext,useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 const CarritoContext = createContext(null);
 
 export function CarritoProvider({ children }) {
-    const [carrito, setCarrito] = useState([]);
+  const [carrito, setCarrito] = useState([]);
 
-    function agregarAlCarrito(producto) {
-        setCarrito((carritoActual) => {
-            const productoExistente = carritoActual.find((item) => item.id === producto.id);
-
-            if (productoExistente) {
-                return carritoActual.map((item) =>
-                    item.id === producto.id
-                        ? { ...item, cantidad: item.cantidad + 1 }
-                        : item
-                );
-            } else {
-                return [...carritoActual, { ...producto, cantidad: 1 }];
-            }
-        });
-    }
-
-    function restarDelCarrito(id) {
-    setCarrito((carritoActual) => {
-      const producto = carritoActual.find((item) => item.id === id);
-
-      if (producto?.cantidad > 1) {
-        return carritoActual.map((item) =>
-          item.id === id ? { ...item, cantidad: item.cantidad - 1 } : item
+  function agregarAlCarrito(producto, cantidad = 1) {
+    setCarrito((prev) => {
+      const existente = prev.find((item) => item.id === producto.id);
+      if (existente) {
+        const nuevaCantidad = Math.min(
+          existente.cantidad + cantidad,
+          producto.stock
         );
-      } else {
-        return carritoActual.filter((item) => item.id !== id);
+        return prev.map((item) =>
+          item.id === producto.id
+            ? { ...item, cantidad: nuevaCantidad, stock: producto.stock }
+            : item
+        );
       }
+      if (producto.stock <= 0) return prev;
+      return [
+        ...prev,
+        {
+          ...producto,
+          cantidad: Math.min(cantidad, producto.stock),
+        },
+      ];
     });
   }
 
-    function eliminarDelCarrito(id) {
-        setCarrito((carritoActual) => carritoActual.filter((item) => item.id !== id));
-    }
-    function limpiarCarrito() {
-        setCarrito([]);
-    }
-
-    const totalItems = carrito.reduce((total, item) => total + item.cantidad, 0);
-    const totalPrecio = carrito.reduce((total, item) => total + item.precio * item.cantidad, 0);
-
-
-    function agregarAlCarrito(producto, cantidad = 1) {
-    setCarrito((carritoActual) => {
-        const productoExistente = carritoActual.find((item) => item.id === producto.id);
-
-        if (productoExistente) {
-            return carritoActual.map((item) =>
-                item.id === producto.id
-                    ? { ...item, cantidad: item.cantidad + cantidad }
-                    : item
-            );
-        } else {
-            return [...carritoActual, { ...producto, cantidad: cantidad }];
-        }
-    });
-}
-    return (
-        <CarritoContext.Provider
-            value={{
-                carrito,
-                agregarAlCarrito,
-                restarDelCarrito,
-                eliminarDelCarrito,
-                limpiarCarrito,
-                totalItems,
-                totalPrecio,
-            }}
-        >
-            {children}
-        </CarritoContext.Provider>
+  function aumentarCantidad(id) {
+    setCarrito((prev) =>
+      prev.map((item) => {
+        if (item.id !== id) return item;
+        if (item.cantidad >= item.stock) return item;
+        return { ...item, cantidad: item.cantidad + 1 };
+      })
     );
+  }
+
+  function disminuirCantidad(id) {
+    setCarrito((prev) =>
+      prev
+        .map((item) =>
+          item.id === id ? { ...item, cantidad: item.cantidad - 1 } : item
+        )
+        .filter((item) => item.cantidad > 0)
+    );
+  }
+
+  function eliminarDelCarrito(id) {
+    setCarrito((prev) => prev.filter((item) => item.id !== id));
+  }
+
+  function vaciarCarrito() {
+    setCarrito([]);
+  }
+
+  const totalCarrito = carrito.reduce(
+    (acc, item) => acc + Number(item.precio) * Number(item.cantidad),
+    0
+  );
+
+  const totalItems = carrito.reduce(
+    (acc, item) => acc + Number(item.cantidad),
+    0
+  );
+
+  return (
+    <CarritoContext.Provider
+      value={{
+        carrito,
+        agregarAlCarrito,
+        aumentarCantidad,
+        disminuirCantidad,
+        eliminarDelCarrito,
+        vaciarCarrito,
+        limpiarCarrito: vaciarCarrito,
+        totalCarrito,
+        totalItems,
+        cantidadTotal: totalItems,
+      }}
+    >
+      {children}
+    </CarritoContext.Provider>
+  );
 }
 
 export function useCarrito() {
-    return useContext(CarritoContext);
+  return useContext(CarritoContext);
 }

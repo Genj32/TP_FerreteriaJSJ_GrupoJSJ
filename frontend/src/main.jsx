@@ -5,13 +5,19 @@ import './index.css'
 import App from './App.jsx'
 import { AuthProvider } from './context/AuthContext'
 import { UsuarioProvider } from './context/UsuarioContext'
+import { PedidoProvider } from './context/PedidoContext'
+import { CarritoProvider } from './context/CarritoContext'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <UsuarioProvider>
         <AuthProvider>
-          <App />
+          <PedidoProvider>
+            <CarritoProvider>
+              <App />
+            </CarritoProvider>
+          </PedidoProvider>
         </AuthProvider>
       </UsuarioProvider>
     </BrowserRouter>

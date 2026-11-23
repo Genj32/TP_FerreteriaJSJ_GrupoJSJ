@@ -1,81 +1,139 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import { useCarrito } from "../context/CarritoContext";
-import "./Carrito.css";
-import {useAuth} from "../context/AuthContext";
 import { usePedidos } from "../context/PedidoContext";
-
-
-
+import { useAuth } from "../context/AuthContext";
+import "./Carrito.css";
 
 export default function Carrito() {
-    const { carrito, agregarAlCarrito, restarDelCarrito, eliminarDelCarrito, limpiarCarrito, totalPrecio } = useCarrito();
-    const { usuario } = useAuth();
-    const { crearPedido } = usePedidos();
+  const {
+    carrito,
+    aumentarCantidad,
+    disminuirCantidad,
+    eliminarDelCarrito,
+    vaciarCarrito,
+    totalCarrito,
+  } = useCarrito();
+  const { crearPedido } = usePedidos();
+  const { usuario } = useAuth();
+  const navigate = useNavigate();
+  const [mensaje, setMensaje] = useState("");
 
-function finalizarCompra() {
- crearPedido (carrito , usuario.nombre);
- limpiarCarrito();
-  alert("Pedido enviado. El vendedor lo va a confirmar.");
-}
+  function manejarConfirmarCompra() {
+    if (carrito.length === 0) return;
+
+    crearPedido(carrito, usuario?.nombre || "Cliente");
+    vaciarCarrito();
+    setMensaje("Pedido enviado. Un vendedor lo confirmará a la brevedad.");
+  }
+
   return (
     <div className="contenedor-pagina">
       <Header titulo="Mi Carrito" />
 
-      <main>
+      <main className="carrito-contenedor">
+        {mensaje && <p className="carrito-mensaje">{mensaje}</p>}
+
         {carrito.length === 0 ? (
-          <div className="mensaje-vacio">
+          <div className="carrito-vacio">
             <p>Tu carrito está vacío.</p>
-            <Link to="/catalogo">
-              <button className="btn-volver">Volver al catálogo</button>
-            </Link>
+            <button
+              className="btn-volver"
+              onClick={() => navigate("/catalogo")}
+            >
+              Volver al catálogo
+            </button>
           </div>
         ) : (
-          <div className="carrito-contenido">
+          <>
             <div className="carrito-lista">
-              {carrito.map((item) => (
-                <div key={item.id} className="carrito-item">
-                  <div className="item-info">
-                    <h3>{item.nombre}</h3>
-                    <p className="item-categoria">{item.categoria}</p>
-                    <p>Precio unitario: $ {item.precio.toLocaleString("es-AR")}</p>
-                  </div>
-                  
-                  <div className="item-acciones">
-                    <div className="control-cantidad">
-                      <button className="btn-cant" onClick={() => restarDelCarrito(item.id)}>-</button>
-                      <span className="item-cantidad-num">{item.cantidad}</span>
-                      <button className="btn-cant" onClick={() => agregarAlCarrito(item)}>+</button>
+              {carrito.map((item) => {
+                const alcanzoTope = item.cantidad >= item.stock;
+
+                return (
+                  <div key={item.id} className="carrito-item">
+                    <div className="carrito-item-producto">
+                      <img
+                        src={item.imagen}
+                        alt={item.nombre}
+                        className="carrito-item-img"
+                      />
+                      <div className="carrito-item-info">
+                        <h3>{item.nombre}</h3>
+                        <p>
+                          $ {Number(item.precio).toLocaleString("es-AR")} c/u
+                        </p>
+                        <small>Stock disponible: {item.stock}</small>
+                      </div>
                     </div>
 
-                    <span className="item-subtotal">
-                      $ {(item.precio * item.cantidad).toLocaleString("es-AR")}
-                    </span>
-                    <button 
-                      className="btn-icono-borrar" 
-                      onClick={() => eliminarDelCarrito(item.id)}
-                      title="Eliminar producto"
-                    >
-                      🗑️
-                    </button>
+                    <div className="carrito-item-acciones">
+                      <div className="carrito-controles">
+                        <button
+                          className="btn-cant"
+                          onClick={() => disminuirCantidad(item.id)}
+                        >
+                          -
+                        </button>
+                        <span className="item-cantidad-num">
+                          {item.cantidad}
+                        </span>
+                        <button
+                          className="btn-cant"
+                          onClick={() => aumentarCantidad(item.id)}
+                          disabled={alcanzoTope}
+                          title={
+                            alcanzoTope
+                              ? "Stock máximo alcanzado"
+                              : "Sumar unidad"
+                          }
+                        >
+                          +
+                        </button>
+                      </div>
+
+                      <p className="carrito-subtotal">
+                        ${" "}
+                        {(
+                          Number(item.precio) * Number(item.cantidad)
+                        ).toLocaleString("es-AR")}
+                      </p>
+
+                      <button
+                        className="btn-eliminar"
+                        onClick={() => eliminarDelCarrito(item.id)}
+                        title="Quitar producto"
+                      >
+                        🗑️
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             <div className="carrito-resumen">
-              <h2>Total: $ {totalPrecio.toLocaleString("es-AR")}</h2>
-              <div className="resumen-botones">
-                <Link to="/catalogo">
-                   <button className="btn-volver-outline">Seguir comprando</button>
-                </Link>
-                <button className="btn-vaciar" onClick={limpiarCarrito}>Vaciar carrito</button>
-                <button className="btn-comprar" onClick={finalizarCompra}>
-                  Finalizar compra
+              <h3>Total: $ {totalCarrito.toLocaleString("es-AR")}</h3>
+              <div className="carrito-resumen-acciones">
+                <button
+                  className="btn-volver-outline"
+                  onClick={() => navigate("/catalogo")}
+                >
+                  Seguir comprando
+                </button>
+                <button className="btn-vaciar" onClick={vaciarCarrito}>
+                  Vaciar carrito
+                </button>
+                <button
+                  className="btn-confirmar-compra"
+                  onClick={manejarConfirmarCompra}
+                >
+                  Confirmar pedido
                 </button>
               </div>
             </div>
-          </div>
+          </>
         )}
       </main>
     </div>
