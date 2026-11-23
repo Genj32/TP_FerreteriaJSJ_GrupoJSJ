@@ -1,3 +1,4 @@
+import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 import Header from "../components/Header";
 import { useProductos } from "../context/ProductoContext";
@@ -16,6 +17,7 @@ export default function Admin() {
   const { usuarios, borrarUsuario, setUsuarioEditando } = useUsuarios();
   const [mostrarFormUsuarios, setMostrarFormUsuarios] = useState(false);
   const { pedidos } = usePedidos();
+  const { usuario: usuarioLogueado } = useAuth();
 
   const [pestaniaActiva, setPestaniaActiva] = useState("productos");
   const [soloCritico, setSoloCritico] = useState(false);
@@ -176,12 +178,16 @@ export default function Admin() {
                       >
                         ✏️
                       </button>
-                      <button
-                        className="btn-icono"
-                        onClick={() => borrarUsuario(usuario.id)}
-                      >
-                        🗑️
-                      </button>
+                      {usuario.id === usuarioLogueado?.id ? (
+                        <span style={{ color: "#888", fontSize: "0.8rem" }}>Tu cuenta</span>
+                      ) : (
+                        <button
+                          className="btn-icono"
+                          onClick={() => borrarUsuario(usuario.id)}
+                        >
+                          🗑️
+                        </button>
+                        )}
                     </td>
                   </tr>
                 ))}
