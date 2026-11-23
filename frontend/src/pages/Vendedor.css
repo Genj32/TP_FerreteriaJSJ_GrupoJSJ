@@ -19,7 +19,7 @@
 }
 
 .vendedor-subtitulo {
-  color: #a1a1aa;
+  color: var(--text-muted);
   font-size: 0.9rem;
   margin: 0 0 1rem;
 }
@@ -171,4 +171,33 @@
 .celda-total {
   font-weight: 600;
   color: #f3f4f6;
+}
+
+@media (max-width: 768px) {
+  .vendedor-form {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1rem;
+  }
+
+  .vendedor-campo {
+    min-width: 100%;
+  }
+
+  .btn-vender {
+    width: 100%;
+  }
+
+  .vendedor-seccion-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn-confirmar,
+  .btn-rechazar {
+    padding: 0.4rem 0.7rem;
+    font-size: 0.8rem;
+  }
 }
