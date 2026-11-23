@@ -57,23 +57,20 @@ export default function Admin() {
 
       <nav className="admin-subnav">
         <ul>
-          <li
-            className={pestaniaActiva === "productos" ? "activo" : ""}
-            onClick={() => cambiarPestania("productos")}
-          >
-            Productos
+          <li className={pestaniaActiva === "productos" ? "activo" : ""}>
+            <button type="button" onClick={() => cambiarPestania("productos")}>
+              Productos
+            </button>
           </li>
-          <li
-            className={pestaniaActiva === "usuarios" ? "activo" : ""}
-            onClick={() => cambiarPestania("usuarios")}
-          >
-            Usuarios
+          <li className={pestaniaActiva === "usuarios" ? "activo" : ""}>
+            <button type="button" onClick={() => cambiarPestania("usuarios")}>
+              Usuarios
+            </button>
           </li>
-          <li
-            className={pestaniaActiva === "stock" ? "activo" : ""}
-            onClick={() => cambiarPestania("stock")}
-          >
-            Stock Crítico
+          <li className={pestaniaActiva === "stock" ? "activo" : ""}>
+            <button type="button" onClick={() => cambiarPestania("stock")}>
+              Stock Crítico
+            </button>
           </li>
         </ul>
       </nav>
@@ -82,7 +79,7 @@ export default function Admin() {
         {pestaniaActiva === "productos" && (
           <>
             <div className="admin-acciones">
-              <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+              <div className="admin-acciones-info">
                 <p>{productosFiltrados.length} productos</p>
                 <label className="filtro-critico-label">
                   <input
@@ -194,7 +191,7 @@ export default function Admin() {
                         ✏️
                       </button>
                       {usuario.id === usuarioLogueado?.id ? (
-                        <span style={{ color: "#888", fontSize: "0.8rem" }}>Tu cuenta</span>
+                        <span className="texto-tu-cuenta">Tu cuenta</span>
                       ) : (
                         <button
                           className="btn-icono"
