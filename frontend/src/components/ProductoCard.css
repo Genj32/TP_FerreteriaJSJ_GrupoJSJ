@@ -9,14 +9,14 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.producto-card:hover{
+.producto-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); 
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
   border-color: #3f3f46;
 }
 
 .imagen-placeholder {
-  background-color: #18181b; 
+  background-color: #18181b;
   border: 1px solid var(--border);
   height: 140px;
   border-radius: 6px;
@@ -44,7 +44,7 @@
 .producto-precio {
   margin: 0 0 16px;
   font-size: 18px;
-  color: var(--accent); 
+  color: var(--accent);
   font-weight: 600;
 }
 
@@ -60,8 +60,14 @@
   transition: opacity 0.2s;
 }
 
-.btn-agregar:hover {
+.btn-agregar:hover:not(:disabled) {
   opacity: 0.8;
+}
+
+.btn-agregar:disabled {
+  background-color: #3f3f46;
+  color: var(--text-muted);
+  cursor: not-allowed;
 }
 
 .producto-img {
