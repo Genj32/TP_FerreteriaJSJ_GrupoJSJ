@@ -47,6 +47,7 @@
 .login-card input:focus {
   outline: none;
   border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.25);
 }
 
 .login-card button {
@@ -63,16 +64,27 @@
   background: #6d28d9;
 }
 
+.login-card button {
+  margin-top: 4px;
+  font-size: 16px;
+}
+
 .login-error {
   color: #f87171;
+  background: rgba(220, 38, 38, 0.12);
+  border: 1px solid rgba(220, 38, 38, 0.35);
+  border-radius: 8px;
+  padding: 8px 12px;
   font-size: 14px;
   margin: 0;
+  text-align: left;
 }
 
 .login-links {
   text-align: center;
   font-size: 14px;
   color: #a1a1aa;
+  margin: 0;
 }
 
 .login-links a {

@@ -89,14 +89,14 @@ export default function Vendedor() {
               <tbody>
                 {pedidosPendientes.map((pedido) => (
                   <tr key={pedido.id}>
-                    <td>{pedido.fecha}</td>
-                    <td>{pedido.cliente}</td>
+                    <td className="celda-fecha">{pedido.fecha}</td>
+                    <td className="celda-cliente">{pedido.cliente}</td>
                     <td>
                       {pedido.items
                         .map((i) => `${i.nombre} x${i.cantidad}`)
                         .join(", ")}
                     </td>
-                    <td>$ {pedido.total.toLocaleString("es-AR")}</td>
+                    <td className="celda-total">$ {pedido.total.toLocaleString("es-AR")}</td>
                     <td className="acciones-celda">
                       <button
                         className="btn-confirmar"
@@ -227,14 +227,14 @@ export default function Vendedor() {
               <tbody>
                 {pedidosHistorial.map((pedido) => (
                   <tr key={pedido.id}>
-                    <td>{pedido.fecha}</td>
-                    <td>{pedido.cliente}</td>
+                    <td className="celda-fecha">{pedido.fecha}</td>
+                    <td className="celda-cliente">{pedido.cliente}</td>
                     <td>
                       {pedido.items
                         .map((i) => `${i.nombre} x${i.cantidad}`)
                         .join(", ")}
                     </td>
-                    <td>$ {pedido.total.toLocaleString("es-AR")}</td>
+                    <td className="celda-total">$ {pedido.total.toLocaleString("es-AR")}</td>
                     <td>
                       <span className={`estado-badge estado-${pedido.estado}`}>
                         {pedido.estado}

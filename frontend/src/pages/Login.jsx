@@ -35,6 +35,7 @@ return (
         id="email"
         type="email"
         placeholder="Email"
+        autoComplete="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
@@ -44,6 +45,7 @@ return (
         id="password"
         type="password"
         placeholder="Contraseña"
+        autoComplete="current-password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
@@ -51,8 +53,8 @@ return (
       {error && <p className="login-error">{error}</p>}
       <button type="submit">Ingresar</button>
 
-      <p className="login-links"><a href="#">¿Olvidaste tu contraseña?</a></p>
-      <p className="login-links">¿No tienes una cuenta? <a href="#">Regístrate</a></p>
+      <p className="login-links"><a href="#" title="Próximamente" onClick={(e) => e.preventDefault()}>¿Olvidaste tu contraseña?</a></p>
+      <p className="login-links">¿No tienes una cuenta? <a href="#" title="Próximamente" onClick={(e) => e.preventDefault()}>Regístrate</a></p>
 
     </form>
   </div>

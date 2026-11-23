@@ -54,13 +54,13 @@ export default function MisPedidos() {
               <tbody>
                 {misPedidos.map((pedido) => (
                   <tr key={pedido.id}>
-                    <td>{pedido.fecha}</td>
+                    <td className="celda-fecha">{pedido.fecha}</td>
                     <td>
                       {pedido.items
                         .map((i) => `${i.nombre} x${i.cantidad}`)
                         .join(", ")}
                     </td>
-                    <td>$ {pedido.total.toLocaleString("es-AR")}</td>
+                    <td className="celda-total">$ {pedido.total.toLocaleString("es-AR")}</td>
                     <td>
                       <span className={`estado-badge estado-${pedido.estado}`}>
                         {pedido.estado}

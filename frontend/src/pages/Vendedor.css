@@ -157,3 +157,18 @@
   background-color: rgba(245, 158, 11, 0.2);
   color: #fbbf24;
 }
+
+/* Celdas de las tablas de pedidos: evitan que fecha y total se partan en dos líneas */
+.celda-fecha,
+.celda-total {
+  white-space: nowrap;
+}
+
+.celda-cliente {
+  padding-right: 1.25rem;
+}
+
+.celda-total {
+  font-weight: 600;
+  color: #f3f4f6;
+}
