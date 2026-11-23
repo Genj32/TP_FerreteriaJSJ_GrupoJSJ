@@ -3,6 +3,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
 .login-card {
@@ -15,6 +17,7 @@
   background: #18181b;
   border: 1px solid #27272a;
   border-radius: 12px;
+  box-sizing: border-box;
 }
 
 .login-logo {
@@ -58,15 +61,12 @@
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
+  margin-top: 4px;
+  font-size: 16px;
 }
 
 .login-card button:hover {
   background: #6d28d9;
-}
-
-.login-card button {
-  margin-top: 4px;
-  font-size: 16px;
 }
 
 .login-error {
@@ -94,4 +94,10 @@
 
 .login-links a:hover {
   text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    padding: 24px 18px;
+  }
 }
