@@ -1,19 +1,25 @@
 import { useState, useEffect } from "react";
 import { useProductos } from "../context/ProductoContext";
 import "./Formulario.css";
-export function Formulario() {
-    const { crear, editar, productoEditando, setProductoEditando } = useProductos();
+
+export function Formulario({ onClose }) {
+    const { productos, crear, editar, productoEditando } = useProductos();
+    const [esNuevaCategoria, setEsNuevaCategoria] = useState(false);
+
+    const categoriasExistentes = [
+        ...new Set(productos.map((p) => p.categoria).filter(Boolean)),
+    ];
 
     const [producto, setProducto] = useState({
         nombre: "",
         categoria: "",
         precio: "",
         stock: "",
-        imagen: ""
+        imagen: "",
     });
 
-    // Cada vez que productoEditando cambie, rellenamos el formulario (o lo limpiamos)
     useEffect(() => {
+        setEsNuevaCategoria(false);
         if (productoEditando) {
             setProducto(productoEditando);
         } else {
@@ -22,7 +28,7 @@ export function Formulario() {
                 categoria: "",
                 precio: "",
                 stock: "",
-                imagen: ""
+                imagen: "",
             });
         }
     }, [productoEditando]);
@@ -30,7 +36,7 @@ export function Formulario() {
     const handlerChange = (e) => {
         setProducto({
             ...producto,
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value,
         });
     };
 
@@ -39,86 +45,116 @@ export function Formulario() {
 
         const productoAEnviar = {
             ...producto,
+            categoria: producto.categoria.trim(),
             precio: Number(producto.precio),
-            stock: Number(producto.stock)
+            stock: Number(producto.stock),
         };
 
         if (productoEditando) {
-            // Si estamos editando, llamamos a la función editar pasándole el ID
             editar(productoEditando.id, productoAEnviar);
         } else {
-            // Si no, creamos uno nuevo
             crear(productoAEnviar);
         }
 
-        // Limpiamos el formulario
+        setEsNuevaCategoria(false);
         setProducto({
             nombre: "",
             categoria: "",
             precio: "",
             stock: "",
-            imagen: ""
+            imagen: "",
         });
+
+        if (onClose) onClose();
     };
 
     return (
         <form onSubmit={handlerSubmit} className="admin-form">
             <h2>{productoEditando ? "Editar Producto" : "Cargar Nuevo Producto"}</h2>
-            
+
             <div>
                 <label>Nombre:</label>
-                <input 
-                    type="text" 
-                    name="nombre" 
-                    value={producto.nombre} 
-                    onChange={handlerChange} 
+                <input
+                    type="text"
+                    name="nombre"
+                    value={producto.nombre}
+                    onChange={handlerChange}
                     required
                 />
             </div>
 
             <div>
                 <label>Categoría:</label>
-                <input 
-                    type="text" 
-                    name="categoria" 
-                    value={producto.categoria} 
-                    onChange={handlerChange} 
+                <select
+                    value={esNuevaCategoria ? "__nueva__" : producto.categoria}
+                    onChange={(e) => {
+                        if (e.target.value === "__nueva__") {
+                            setEsNuevaCategoria(true);
+                            setProducto({ ...producto, categoria: "" });
+                        } else {
+                            setEsNuevaCategoria(false);
+                            setProducto({ ...producto, categoria: e.target.value });
+                        }
+                    }}
                     required
-                />
+                >
+                    <option value="" disabled>
+                        Seleccioná una categoría...
+                    </option>
+                    {categoriasExistentes.map((cat) => (
+                        <option key={cat} value={cat}>
+                            {cat}
+                        </option>
+                    ))}
+                    <option value="__nueva__">+ Nueva categoría...</option>
+                </select>
+
+                {esNuevaCategoria && (
+                    <input
+                        type="text"
+                        name="categoria"
+                        value={producto.categoria}
+                        onChange={handlerChange}
+                        placeholder="Escribí el nombre de la nueva categoría..."
+                        style={{ marginTop: "6px" }}
+                        required
+                        autoFocus
+                    />
+                )}
             </div>
 
             <div>
                 <label>Precio:</label>
-                <input 
-                    type="number" 
-                    name="precio" 
-                    value={producto.precio} 
-                    onChange={handlerChange} 
+                <input
+                    type="number"
+                    name="precio"
+                    value={producto.precio}
+                    onChange={handlerChange}
                     required
                 />
             </div>
 
             <div>
                 <label>Stock:</label>
-                <input 
-                    type="number" 
-                    name="stock" 
-                    value={producto.stock} 
-                    onChange={handlerChange} 
+                <input
+                    type="number"
+                    name="stock"
+                    value={producto.stock}
+                    onChange={handlerChange}
                     required
                 />
             </div>
 
             <div>
                 <label>URL de Imagen:</label>
-                <input 
-                    type="text" 
-                    name="imagen" 
-                    value={producto.imagen} 
-                    onChange={handlerChange} 
+                <input
+                    type="text"
+                    name="imagen"
+                    value={producto.imagen}
+                    onChange={handlerChange}
                 />
             </div>
-            
+
             <button type="submit">
                 {productoEditando ? "Actualizar Producto" : "Guardar Producto"}
             </button>
