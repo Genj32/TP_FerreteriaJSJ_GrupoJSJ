@@ -6,7 +6,7 @@ Aplicación web (SPA) desarrollada para gestionar el inventario, los usuarios y 
 Grupo: JSJ
 Institución: Escuela Da Vinci — Analista de Sistemas
 Materia: Plataformas de Desarrollo (2do Parcial)
-Comisión: ACN4AP
+Comisión: ACN4BV
 Integrantes:
 Juan Manuel Cappi
 Santiago Gomez Pereyra
@@ -20,11 +20,13 @@ Ver un resumen del negocio: productos activos, artículos con stock crítico y v
 Agregar, editar y eliminar productos, y filtrar los que tienen bajo stock (10 unidades o menos).
 Crear, editar y eliminar usuarios del sistema. Los usuarios nuevos pueden iniciar sesión al instante.
 El administrador no puede eliminarse a sí mismo por error.
+
 🧾 Vendedor
 Ver los pedidos pendientes que hicieron los clientes, con el detalle y el total de cada uno.
 Confirmar un pedido (se descuenta el stock) o rechazarlo. Si no hay stock suficiente, el sistema avisa y el pedido queda pendiente.
 Registrar ventas de mostrador eligiendo producto y cantidad.
 Consultar el historial de pedidos y el total vendido (solo cuentan los confirmados).
+
 🛒 Cliente
 Explorar el catálogo, buscar por nombre y filtrar por categoría.
 Agregar productos al carrito eligiendo la cantidad, sin superar el stock disponible.
