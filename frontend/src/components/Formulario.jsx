@@ -40,33 +40,41 @@ export function Formulario({ onClose }) {
         });
     };
 
-    const handlerSubmit = (e) => {
-        e.preventDefault();
+const handlerSubmit = (e) => {
+    e.preventDefault();
 
-        const productoAEnviar = {
-            ...producto,
-            categoria: producto.categoria.trim(),
-            precio: Number(producto.precio),
-            stock: Number(producto.stock),
-        };
+    const precioNum = Number(producto.precio);
+    const stockNum = Number(producto.stock);
 
-        if (productoEditando) {
-            editar(productoEditando.id, productoAEnviar);
-        } else {
-            crear(productoAEnviar);
-        }
+    if (precioNum < 1 || stockNum < 1) {
+        alert("El precio y el stock deben ser mayores o iguales a 1.");
+        return;
+    }
 
-        setEsNuevaCategoria(false);
-        setProducto({
-            nombre: "",
-            categoria: "",
-            precio: "",
-            stock: "",
-            imagen: "",
-        });
-
-        if (onClose) onClose();
+    const productoAEnviar = {
+        ...producto,
+        categoria: producto.categoria.trim(),
+        precio: precioNum,
+        stock: stockNum,
     };
+
+    if (productoEditando) {
+        editar(productoEditando.id, productoAEnviar);
+    } else {
+        crear(productoAEnviar);
+    }
+
+    setEsNuevaCategoria(false);
+    setProducto({
+        nombre: "",
+        categoria: "",
+        precio: "",
+        stock: "",
+        imagen: "",
+    });
+
+    if (onClose) onClose();
+};
 
     return (
         <form onSubmit={handlerSubmit} className="admin-form">
@@ -128,6 +136,8 @@ export function Formulario({ onClose }) {
                 <input
                     type="number"
                     name="precio"
+                    min="1"
+                    step="any"
                     value={producto.precio}
                     onChange={handlerChange}
                     required
@@ -139,6 +149,8 @@ export function Formulario({ onClose }) {
                 <input
                     type="number"
                     name="stock"
+                    min="1"
+                    step="1"
                     value={producto.stock}
                     onChange={handlerChange}
                     required
